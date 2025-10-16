@@ -10,7 +10,7 @@
     <body class="flex h-full font-sans flex-nowrap">
         <livewire:admin.components.sidebar sidebarMenuClass="App\Builders\AdminSidebarMenu" />
 
-        <div class="flex-1">
+        <div class="flex-1 overflow-y-auto">
             <div class="container p-6 mx-auto">
                 {{ $slot }}
             </div>
