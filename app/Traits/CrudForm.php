@@ -29,6 +29,8 @@ trait CrudForm
 
     public function mount(...$params): void
     {
+        $this->beforeMount();
+
         $modelClass = $this->getModel();
 
         $id = $params[0] ?? null;
@@ -44,6 +46,18 @@ trait CrudForm
         } else {
             $this->model = new $modelClass();
         }
+
+        $this->afterMount();
+    }
+
+    public function beforeMount(): void
+    {
+
+    }
+
+    public function afterMount(): void
+    {
+
     }
 
     public function processModelAfterSave(): void
