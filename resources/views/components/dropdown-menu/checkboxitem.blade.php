@@ -22,7 +22,7 @@
         class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center"
         x-show="__isChecked"
     >
-        <x-lucide-check class="w-4 h-4" />
+        <x-heroicon-o-check class="w-4 h-4" />
     </span>
     {{ $slot }}
 </li>

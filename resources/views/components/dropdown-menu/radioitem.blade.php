@@ -23,7 +23,7 @@
         class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center"
         x-show="__proxyIsChecked('{{ $value }}')"
     >
-        <x-lucide-dot class="w-4 h-4" />
+        <x-heroicon-o-plus class="w-4 h-4" />
     </span>
     {{ $slot }}
 </li>

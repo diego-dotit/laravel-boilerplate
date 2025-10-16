@@ -19,5 +19,5 @@
     <span>
         {{ $slot }}
     </span>
-    <x-lucide-chevron-right class="ml-auto size-4" />
+    <x-heroicon-o-chevron-right class="ml-auto size-4" />
 </div>
