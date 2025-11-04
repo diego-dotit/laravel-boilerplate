@@ -1,6 +1,9 @@
 import axios from 'axios';
 import collapse from "@alpinejs/collapse";
 import anchor from "@alpinejs/anchor";
+import intersect from '@alpinejs/intersect'
+import flatpickr from "flatpickr";
+import 'flatpickr/dist/flatpickr.min.css';
 
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -42,6 +45,32 @@ document.addEventListener(
         }
         window.Alpine.plugin(collapse);
         window.Alpine.plugin(anchor);
+
+        window.Alpine.plugin(intersect)
     },
     { once: true },
 );
+
+window.toggleXDialog = element => {
+    if(typeof element === 'string') {
+        element = document.querySelector(element);
+    }
+
+    if(!element) {
+        return;
+    }
+
+    element.dispatchEvent(new CustomEvent('dialog-toggle'));
+};
+
+window.closeXDialog = element => {
+    if(typeof element === 'string') {
+        element = document.querySelector(element);
+    }
+
+    if(!element) {
+        return;
+    }
+
+    element.dispatchEvent(new CustomEvent('dialog-close'));
+}

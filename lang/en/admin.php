@@ -4,6 +4,9 @@ return [
     'dashboard' => [
         'title' => 'Dashboard',
     ],
+    'login' => [
+        'title' => 'Panel Login',
+    ],
     'users' => [
         'title' => 'Users',
         'singular' => 'user',

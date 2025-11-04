@@ -15,6 +15,11 @@ trait CrudForm
 
     public ?Model $model = null;
 
+    public function doRedirect(): bool
+    {
+        return true;
+    }
+
     public function isEditMode(): bool
     {
         return $this->model && $this->model->exists;
@@ -33,13 +38,20 @@ trait CrudForm
 
         $modelClass = $this->getModel();
 
-        $id = $params[0] ?? null;
+        $id = null;
+
+        foreach($params as $param) {
+            if($param instanceof Model && $param instanceof $modelClass) {
+                $id = $param;
+                break;
+            }
+        }
 
         if ($id) {
             if($id instanceof Model) {
                 $this->model = $id;
             } else {
-                $this->model = $modelClass::findOrFail($id);
+                $this->model = $modelClass::find($id);
             }
 
             $this->loadModelData();
@@ -68,7 +80,7 @@ trait CrudForm
     public function save(): void
     {
         try {
-            $this->validate($this->getValidationRules());
+            $validatedData = $this->validate($this->getValidationRules());
         } catch (ValidationException $e) {
             $this->dispatch(
                 'alert',
@@ -81,28 +93,66 @@ trait CrudForm
             throw $e;
         }
 
+        $this->dispatch('form-saving', $this->model);
+
         $this->processModelBeforeSave();
 
         $this->model->save();
 
         $this->processModelAfterSave();
 
-        session()->flash(
-            'alert',
-            $this->isEditMode() ? [
-                'title' => __('common.updated_successfully'),
-                'description' => __('common.updated_successfully_description'),
-                'variant' => 'success',
-                'icon' => 'check-badge'
-            ] : [
-                'title' => __('common.created_successfully'),
-                'description' => __('common.created_successfully_description'),
-                'variant' => 'success',
-                'icon' => 'check-badge'
-            ]
-        );
+        if($this->doRedirect()) {
+            session()->flash(
+                'alert',
+                $this->isEditMode() ? [
+                    'title' => __('common.updated_successfully'),
+                    'description' => __('common.updated_successfully_description'),
+                    'variant' => 'success',
+                    'icon' => 'check-badge'
+                ] : [
+                    'title' => __('common.created_successfully'),
+                    'description' => __('common.created_successfully_description'),
+                    'variant' => 'success',
+                    'icon' => 'check-badge'
+                ]
+            );
 
-        $this->redirectRoute($this->getRedirectRoute(), $this->model);
+            $this->redirectRoute($this->getRedirectRoute(), $this->model);
+        } else {
+            $this->dispatch('form-saved', $this->model);
+            $this->dispatch(
+                'alert',
+                $this->isEditMode() ? __('common.updated_successfully') : __('common.created_successfully'),
+                $this->isEditMode() ? __('common.updated_successfully_description') : __('common.created_successfully_description'),
+                'success',
+                'check-badge'
+            );
+
+            $this->model = new ($this->getModel())();
+
+            foreach(array_keys($validatedData) as $field) {
+                if(property_exists($this, $field)) {
+                    switch(gettype($this->$field)) {
+                        case 'boolean':
+                            $this->$field = false;
+                            break;
+                        case 'integer':
+                            $this->$field = 0;
+                            break;
+                        case 'array':
+                            $this->$field = [];
+                            break;
+                        case 'string':
+                            $this->$field = '';
+                            break;
+                        default:
+                            $this->$field = null;
+                    }
+                }
+            }
+
+            $this->resetValidation();
+        }
     }
 
     public function processSingleImageSave(mixed $image, string $collectionName): void

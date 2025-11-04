@@ -2,8 +2,8 @@
     'columns' => [],
 ])
 
-<div class="overflow-hidden border border-gray-200 rounded-lg">
-    <table class="w-full text-left table-auto min-w-max">
+<div {{ $attributes->twMerge('border border-gray-200 rounded-lg') }}>
+    <table class="w-full text-left table-auto">
         @if(!empty($columns))
             <thead>
                 <tr class="bg-gray-50">

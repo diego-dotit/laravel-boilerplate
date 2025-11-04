@@ -9,7 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use App\Traits\CrudListing;
 
 new
-#[Layout('components.layouts.admin', ['title' => 'admin.dashboard.title'])]
+#[Layout('components.panel.layouts.panel', ['title' => 'admin.dashboard.title'])]
 class extends Component implements HasPageMetadata {
     use CrudListing;
 
@@ -53,7 +53,7 @@ class extends Component implements HasPageMetadata {
 }; ?>
 
 <div>
-    <x-common.heading :title="$this->getTitle()" :breadcrumbs="$this->getBreadcrumb()" />
+    <x-panel.common.heading :title="$this->getTitle()" :breadcrumbs="$this->getBreadcrumb()" />
 
     <div class="mb-6 text-end">
         <x-table.create-button :href="route('admin.users.create')">{{ __('admin.users.singular') }}</x-table.create-button>
@@ -68,14 +68,18 @@ class extends Component implements HasPageMetadata {
                         <x-avatar.fallback>{{ $user->initials() }}</x-avatar.fallback>
                     </x-avatar>
                 </x-table.cell>
-                <x-table.cell>{{ $user->name }}</x-table.cell>
+                <x-table.cell>
+                    <x-link href="{{ route('admin.users.show', $user) }}">{{ $user->name }}</x-link>
+                </x-table.cell>
                 <x-table.cell>{{ $user->email }}</x-table.cell>
                 <x-table.cell>{{ $user->role()->getLabel() }}</x-table.cell>
                 <x-table.cell class="text-end">{{ $user->created_at->format('d.m.Y') }}</x-table.cell>
                 <x-table.cell class="text-end">{{ $user->updated_at->format('d.m.Y') }}</x-table.cell>
-                <x-table.cell class="flex items-center justify-end gap-3">
-                    <x-table.edit-button href="{{ route('admin.users.edit', $user) }}" />
-                    <x-table.delete-button :model="$user" />
+                <x-table.cell>
+                    <div class="flex items-center justify-end gap-3">
+                        <x-table.edit-button href="{{ route('admin.users.edit', $user) }}" />
+                        <x-table.delete-button :model="$user" />
+                    </div>
                 </x-table.cell>
             </x-table.row>
         @endforeach

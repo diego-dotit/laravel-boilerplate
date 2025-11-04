@@ -1,5 +1,4 @@
 @props([
-    'type' => 'text',
     'label' => 'Label',
     'descriptionTrailing' => '',
     'required' => false,
@@ -10,8 +9,7 @@
         {{ $label }}
     </x-form.label>
 
-    <x-input
-        type="{{ $type }}"
+    <x-file
         x-form:control
         {{ $attributes }}
     />

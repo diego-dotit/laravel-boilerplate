@@ -5,7 +5,7 @@ use Livewire\Volt\Component;
 use App\Contracts\HasPageMetadata;
 
 new
-#[Layout('components.layouts.admin', ['title' => 'admin.dashboard.title'])]
+#[Layout('components.panel.layouts.panel', ['title' => 'admin.dashboard.title'])]
 class extends Component implements HasPageMetadata {
     public function getTitle(): string
     {
@@ -21,7 +21,7 @@ class extends Component implements HasPageMetadata {
 }; ?>
 
 <div>
-    <x-common.heading :title="$this->getTitle()" :breadcrumbs="$this->getBreadcrumb()" />
+    <x-panel.common.heading :title="$this->getTitle()" :breadcrumbs="$this->getBreadcrumb()" />
 
     /dashboard content/
 </div>

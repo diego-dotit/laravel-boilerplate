@@ -73,7 +73,7 @@ new class extends Component {
                 </a>
 
                 @if(!empty($item['children']))
-                    <livewire:admin.components.sidebar-menu :menu="$item['children']" />
+                    <livewire:panel.components.sidebar-menu :menu="$item['children']" />
                 @endif
             @endif
         </li>

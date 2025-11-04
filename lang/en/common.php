@@ -24,4 +24,5 @@ return [
     'no_image' => 'No image',
     'click_or_drop_image' => 'Click or drop image',
     'loading' => 'Loading',
+    'back' => 'Back',
 ];

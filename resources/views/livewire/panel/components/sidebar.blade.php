@@ -16,11 +16,11 @@ new class extends Component {
 
 <div class="w-[300px] border-r border-gray-200 py-6 px-3 h-screen flex flex-col flex-nowrap gap-6">
     <div class="flex justify-center grow-0">
-        <x-common.app-logo class="h-10" :href="route('admin.dashboard')" />
+        <x-panel.common.app-logo class="h-10" :href="route('admin.dashboard')" />
     </div>
 
     <div class="flex-auto overflow-y-auto">
-        <livewire:admin.components.sidebar-menu :menu="$menu" />
+        <livewire:panel.components.sidebar-menu :menu="$menu" />
     </div>
 
     <div class="grow-0">

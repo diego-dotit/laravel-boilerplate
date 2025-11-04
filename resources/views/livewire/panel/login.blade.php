@@ -15,7 +15,7 @@ use Livewire\Volt\Component;
 use App\UserRoles\AdminRole;
 
 new
-#[Layout('components.layouts.auth', ['title' => 'admin.login.title'])]
+#[Layout('components.panel.layouts.auth', ['title' => 'admin.login.title'])]
 class extends Component {
     #[Validate('required|string|email')]
     public string $email = '';
